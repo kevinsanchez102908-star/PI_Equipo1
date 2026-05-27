@@ -8,6 +8,7 @@ import ApreciacionArte2 from "./components/ApreciacionArte2";
 import Liderazgo from "./components/Liderazgo";
 import Psicologia from "./components/Psicologia";
 import Ciudadania from "./components/Ciudadania";
+import Comunicacion from "./components/Comunicacion";
 
 // DESARROLLO EMPRENDEDOR (lazy)
 const DesarrolloEmprendedor = lazy(() =>
@@ -75,6 +76,11 @@ export default function App() {
         {/* ================= APRECIACIÓN DEL ARTE II ================= */}
         <section id="apreciacion-arte-2">
           <ApreciacionArte2 />
+        </section>
+
+        {/* ================= COMUNICACIÓN ================= */}
+        <section id="comunicacion">
+          <Comunicacion />
         </section>
 
       </Suspense>
