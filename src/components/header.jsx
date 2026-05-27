@@ -1,96 +1,179 @@
-import 'boxicons/css/boxicons.min.css';
+import "boxicons/css/boxicons.min.css";
+import { useEffect, useState } from "react";
 
 const Header = () => {
 
-  const toggleMobileMenu = () => {
-    const mobileMenu = document.getElementById('mobileMenu');
+  const [scrolled, setScrolled] = useState(false);
+  const [menuOpen, setMenuOpen] = useState(false);
 
-    if (mobileMenu.classList.contains('hidden')) {
-      mobileMenu.classList.remove('hidden');
-    } else {
-      mobileMenu.classList.add('hidden');
-    }
-  };
+  useEffect(() => {
+
+    const handleScroll = () => {
+
+      if (window.scrollY > 50) {
+        setScrolled(true);
+      } else {
+        setScrolled(false);
+      }
+
+    };
+
+    window.addEventListener("scroll", handleScroll);
+
+    return () => window.removeEventListener("scroll", handleScroll);
+
+  }, []);
 
   return (
-    <header className="flex justify-between items-center py-4 px-4 lg:px-20">
 
-      {/* LOGO / TITULO */}
-      <h1 
+    <header
+      className={`
+        fixed
+        top-0
+        left-0
+        w-full
+        z-50
+        transition-all
+        duration-500
+        px-6
+        lg:px-20
+        py-4
+        flex
+        justify-between
+        items-center
+
+        ${scrolled
+          ? "bg-black/40 backdrop-blur-xl border-b border-white/10 shadow-[0_0_40px_rgba(255,255,255,0.05)]"
+          : "bg-transparent"
+        }
+      `}
+    >
+
+      {/* ================================================= */}
+      {/* LOGO */}
+      {/* ================================================= */}
+
+      <h1
         data-aos="fade-down"
-        data-aos-easing="linear"
-        data-aos-duration="1500"  
-        className="text-3xl md:text-4xl lg:text-5xl font-light m-0"
+        data-aos-duration="1200"
+        className="
+          text-2xl
+          md:text-3xl
+          lg:text-4xl
+          font-light
+          tracking-[0.3em]
+          text-white
+          hover:text-cyan-400
+          transition-all
+          duration-500
+          cursor-pointer
+        "
       >
         GRUPO 617
       </h1>
 
+      {/* ================================================= */}
       {/* NAV DESKTOP */}
+      {/* ================================================= */}
+
       <nav className="hidden md:flex items-center gap-10">
 
-        {/* MATERIAS (estructura lista para crecer) */}
-        <a 
-          href="#desarrollo-emprendedor" 
-          className="relative text-base tracking-wider transition-colors hover:text-green-400 z-50
-                     after:content-[''] after:absolute after:-bottom-2 after:left-0 
-                     after:w-0 after:h-[2px] after:bg-green-400 after:transition-all 
-                     hover:after:w-full"
+        <a
+          href="#desarrollo-emprendedor"
+          className="
+            relative
+            text-sm
+            tracking-widest
+            text-white/80
+            hover:text-cyan-400
+            transition-all
+            duration-300
+            after:content-['']
+            after:absolute
+            after:-bottom-2
+            after:left-0
+            after:w-0
+            after:h-[1px]
+            after:bg-cyan-400
+            after:transition-all
+            hover:after:w-full
+          "
         >
+
           DESARROLLO EMPRENDEDOR
-        </a>
 
-        {/* FUTURAS MATERIAS (listas para activar después)
-        <a href="#materia-2" className="text-base tracking-wider hover:text-blue-400">
-          MATERIA 2
         </a>
-
-        <a href="#materia-3" className="text-base tracking-wider hover:text-pink-400">
-          MATERIA 3
-        </a>
-        */}
 
       </nav>
 
-      {/* BOTÓN */}
-      <button className="hidden md:block bg-[#a7a7a7] text-black py-3 px-8 rounded-full font-medium transition-all duration-500 hover:bg-white cursor-pointer z-50">
-        SIGNIN
-      </button>
-
+      {/* ================================================= */}
       {/* MOBILE BUTTON */}
-      <button onClick={toggleMobileMenu} className="md:hidden text-3xl p-2 z-50">
-        <i className='bx bx-menu'></i>
+      {/* ================================================= */}
+
+      <button
+        onClick={() => setMenuOpen(!menuOpen)}
+        className="md:hidden text-3xl text-white z-50"
+      >
+
+        <i className="bx bx-menu"></i>
+
       </button>
 
+      {/* ================================================= */}
       {/* MOBILE MENU */}
-      <div 
-        id='mobileMenu' 
-        className='hidden fixed top-16 bottom-0 right-0 left-0 p-5 md:hidden z-40 
-                   bg-black/70 backdrop-blur-md'
-      >
-        <nav className='flex flex-col gap-8 items-center'>
+      {/* ================================================= */}
 
-          {/* MATERIAS FUTURAS LISTAS PARA ESCALAR */}
-          <a 
-            href="#desarrollo-emprendedor" 
-            className="text-lg tracking-wider transition-colors hover:text-green-400"
+      {menuOpen && (
+
+        <div
+          className="
+            fixed
+            inset-0
+            bg-black/80
+            backdrop-blur-xl
+            flex
+            flex-col
+            items-center
+            justify-center
+            gap-10
+            z-40
+          "
+        >
+
+          <a
+            onClick={() => setMenuOpen(false)}
+            href="#desarrollo-emprendedor"
+            className="text-xl text-white hover:text-cyan-400"
           >
-            DESARROLLO EMPRENDEDOR
+
+            Desarrollo Emprendedor
+
           </a>
 
-          {/* Espacio reservado para futuras materias */}
-          <div className="w-1/2 h-[1px] bg-white/20"></div>
+          <button
+            onClick={() => setMenuOpen(false)}
+            className="
+              px-8
+              py-3
+              rounded-full
+              bg-white
+              text-black
+              font-bold
+            "
+          >
 
-          {/* EJEMPLOS FUTUROS (comentados)
-          <a href="#materia-2" className="text-lg hover:text-blue-400">
-            MATERIA 2
-          </a>
-          */}
+            Cerrar
 
-        </nav>
-      </div>
+          </button>
+
+        </div>
+
+      )}
 
     </header>
+
   );
+
 };
 
 export default Header;
